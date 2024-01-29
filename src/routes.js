@@ -1,0 +1,36 @@
+import { Router } from "express";
+import dotenv from 'dotenv'
+import { createUser, deleteUser, getUsers, loginUser, privateGetUser, refreshToken } from "./controllers/UserController.js";
+import { createMember, deleteMember, getMember, getMembers, updateMember } from "./controllers/MemberController.js";
+import { checkToken } from "./middlewares/auth.js";
+import { storage } from "./config/multer.js";
+import multer from "multer";
+import { createTransaction, deleteTransaction, getTransaction, getTransactions, updateTransaction } from "./controllers/TransactionController.js";
+
+dotenv.config()
+const upload = multer({ storage: storage }).array("files", 1);  // "files" é o nome do campo de arquivo no seu formulário
+const routes = Router()
+
+//User Routes
+routes.get('/', getUsers)
+routes.delete('/user/:id', checkToken, deleteUser)
+routes.post('/auth/register/', createUser)
+routes.post('/auth/login/', loginUser)
+routes.get('/user/:id/', checkToken, privateGetUser)
+routes.post('/auth/refresh-token', checkToken, refreshToken)
+
+//Members Routes
+routes.get('/members/', checkToken, getMembers)
+routes.get('/member/:id', checkToken, getMember)
+routes.post('/member', upload, checkToken, createMember)
+routes.delete('/member/:id', checkToken, deleteMember)
+routes.put('/member/:id', checkToken, updateMember)
+
+//Transactions Routes
+routes.get('/transactions/', checkToken, getTransactions)
+routes.get('/transaction/:id', checkToken, getTransaction)
+routes.post('/transaction', checkToken, createTransaction)
+routes.delete('/transaction/:id', checkToken, deleteTransaction)
+routes.put('/transaction/:id', checkToken, updateTransaction)
+
+export default routes
