@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Transaction'
     }],
+    campaigns: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Campaign'
+    }],
     // customerId: {
     //     type: String
     // },

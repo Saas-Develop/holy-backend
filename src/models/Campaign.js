@@ -1,44 +1,41 @@
 import mongoose from "mongoose";
 
-const memberSchema = new mongoose.Schema({
-    name: {
+const campaignSchema = new mongoose.Schema({
+    type: [
+    {
+        income: {
+            type: String,
+            required: false
+        },
+    },
+    {
+        expense: {
+            type: String,
+            required: false
+        },
+    }
+    ],
+    deduction: {
+       type: Number,
+       required: false,
+       default: 0 
+    },
+    value: {
+       type: Number,
+       required: true 
+    },
+    description: {
         type: String,
         required: true
     },
-    gender: {
+    category: {
         type: String,
         required: true
     },
-    adress: {
+    date: {
         type: String,
         required: true
     },
-    cell_number: {
-        type: String,
-        required: true
-    },
-    bday: {
-        type: String,
-        required: true
-    },
-    baptized: {
-        type: String,
-        required: true
-    },
-    member_since: {
-        type: String,
-        required: true
-    },
-    role: {
-        type: String,
-        required: true
-    },
-    files: [{
-        originalname: String,
-        filename: String,
-        url: String,
-        size: Number,
-    }],
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -62,4 +59,4 @@ const memberSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('Member', memberSchema)
+export default mongoose.model('Campaign', campaignSchema)

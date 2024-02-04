@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Transaction from "../models/Transaction.js";
+import RecentActivity from "../models/RecentActivity.js";
 
 
 export const getTransactions = async (req, res) => {
@@ -41,7 +42,21 @@ export const createTransaction = async (req, res) => {
     try {
         const newTransaction = await Transaction.create(transaction);
 
-        await User.findByIdAndUpdate(userId, { $push: { transactions: newTransaction._id } });
+        const newTransactionActivity = new RecentActivity({
+            type: 'Transaction',
+            transactionType: newTransaction.type,
+            itemId: newTransaction._id,
+            user: userId,
+            description: newTransaction.description,
+            value: newTransaction.value,
+            createdAt: new Date()
+        });
+
+        // Salvar a atividade recente no banco de dados
+        await newTransactionActivity.save();
+
+        // Atualizar o usuário com a referência para a atividade recente
+        await User.findByIdAndUpdate(userId, { $push: { transactions: newTransaction._id, recentActivities: newTransactionActivity._id } });
         return res.status(201).json({ msg: 'Transação cadastrada com sucesso.', newTransaction });
     } catch (err) {
         console.error(err.message);
@@ -53,6 +68,7 @@ export const deleteTransaction = async (req, res) => {
     const id = req.params.id;
 
     await Transaction.findByIdAndDelete({ _id: id });
+    await RecentActivity.findOneAndDelete({ type: 'Transaction', itemId: id });
 
     return res.status(200).json({ res: 'Transação deletada com sucesso.' });
 }

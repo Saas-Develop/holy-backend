@@ -1,5 +1,6 @@
 import User from "../models/User.js"
 import Member from "../models/Member.js";
+import RecentActivity from "../models/RecentActivity.js";
 
 
 export const getMembers = async (req, res) => {
@@ -32,10 +33,13 @@ export const createMember = async (req, res) => {
     const userId = req._id; // Obtendo o ID do usuário logado
     const member = {
         name: req.body.name,
+        gender: req.body.gender,
         adress: req.body.adress,
         cell_number: req.body.cell_number,
         bday: req.body.bday,
         role: req.body.role,
+        baptized: req.body.baptized,
+        member_since: req.body.member_since,
         files: req.files.map(file => ({
             filename: file.filename,
             size: file.size,
@@ -46,8 +50,19 @@ export const createMember = async (req, res) => {
 
     try {
         const newMember = await Member.create(member);
+
+        const newMemberActivity = new RecentActivity({
+            type: 'Member',
+            itemId: newMember._id,
+            user: userId,
+            name: newMember.name,
+            createdAt: new Date()
+        });
+
+        // Salvar a atividade recente no banco de dados
+        await newMemberActivity.save();
         
-        await User.findByIdAndUpdate(userId, { $push: { members: newMember._id } });
+        await User.findByIdAndUpdate(userId, { $push: { members: newMember._id, recentActivities: newMemberActivity._id } });
         return res.status(201).json({msg: `Membro cadastrado para a igreja cujo id é: ${userId}`, newMember});
     } catch (err) {
         console.error(err.message);
@@ -60,6 +75,7 @@ export const deleteMember = async (req, res) => {
     const id = req.params.id
 
     await Member.findByIdAndDelete({_id: id})
+    await RecentActivity.findOneAndDelete({ type: 'Member', itemId: id });
 
     return res.status(200).json({res: 'Membro e suas inforamções deletadas com sucesso.'})
 }
