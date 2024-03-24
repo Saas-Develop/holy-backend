@@ -46,7 +46,7 @@ export const createMember = async (req, res) => {
             url: `uploads/${file.filename}`, // Crie a URL baseada no nome do arquivo
         })),
         user: userId
-        }
+    };
 
     try {
         const newMember = await Member.create(member);
@@ -59,16 +59,18 @@ export const createMember = async (req, res) => {
             createdAt: new Date()
         });
 
-        // Salvar a atividade recente no banco de dados
+        // Salvar a atividade recente do membro no banco de dados
         await newMemberActivity.save();
-        
+
+        // Atualizar o usuário com a referência para a atividade recente
         await User.findByIdAndUpdate(userId, { $push: { members: newMember._id, recentActivities: newMemberActivity._id } });
-        return res.status(201).json({msg: `Membro cadastrado para a igreja cujo id é: ${userId}`, newMember});
+        return res.status(201).json({ msg: `Membro cadastrado para a igreja cujo id é: ${userId}`, newMember });
     } catch (err) {
         console.error(err.message);
         return res.status(500).json({ msg: 'Erro ao cadastrar membro', err });
     }
 }
+
 
 export const deleteMember = async (req, res) => {
 

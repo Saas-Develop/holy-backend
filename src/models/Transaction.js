@@ -1,20 +1,11 @@
 import mongoose from "mongoose";
 
 const transactionSchema = new mongoose.Schema({
-    type: [
-    {
-        income: {
-            type: String,
-            required: true
-        },
+    type: {
+        type: String,
+        enum: ['income', 'expense'], // Define os valores permitidos
+        required: true
     },
-    {
-        expense: {
-            type: String,
-            required: true
-        },
-    }
-    ],
     value: {
        type: Number,
        required: true 

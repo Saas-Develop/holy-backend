@@ -62,7 +62,7 @@ export const updateCampaign = async (req, res) => {
 
         const campaign = {
             type: req.body.type,
-            deduction: req.body.description,
+            deduction: req.body.deduction,
         }
 
         await Campaign.findByIdAndUpdate(id, campaign);

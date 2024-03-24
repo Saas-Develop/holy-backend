@@ -2,6 +2,7 @@ import User from "../models/User.js"
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
 import dotenv from 'dotenv'
+import Campaign from "../models/Campaign.js"
 
 dotenv.config()
 
@@ -14,6 +15,7 @@ export const getUsers = async (req, res) => {
 
 export const privateGetUser = async (req, res) => {
     const id = req.params.id;
+    const campaigns = await Campaign.find({ user: id });
   
     try {
       const user = await User.findById(id, '-password');
@@ -29,6 +31,7 @@ export const privateGetUser = async (req, res) => {
           email: user.email,
           // customerId: user.customerId,
         },
+        campaigns,
         subscriptionStatus: user.subscription, // Certifique-se de ajustar isso conforme necessário
       });
     } catch (err) {

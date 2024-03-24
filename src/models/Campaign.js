@@ -1,23 +1,13 @@
 import mongoose from "mongoose";
 
 const campaignSchema = new mongoose.Schema({
-    type: [
-    {
-        income: {
-            type: String,
-            required: false
-        },
+    type: {
+        type: String,
+        enum: ['income', 'expense'], // Define os valores permitidos
     },
-    {
-        expense: {
-            type: String,
-            required: false
-        },
-    }
-    ],
+
     deduction: {
        type: Number,
-       required: false,
        default: 0 
     },
     value: {

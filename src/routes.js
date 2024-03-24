@@ -7,6 +7,7 @@ import { storage } from "./config/multer.js";
 import multer from "multer";
 import { createTransaction, deleteTransaction, getTransaction, getTransactions, updateTransaction } from "./controllers/TransactionController.js";
 import { createCampaign, deleteCampaign, getCampaign, getCampaigns, updateCampaign } from "./controllers/CampaignController.js";
+import { getRecentActivities } from "./controllers/RecentActivityController.js";
 
 dotenv.config()
 const upload = multer({ storage: storage }).array("files", 1);  // "files" é o nome do campo de arquivo no seu formulário
@@ -40,5 +41,7 @@ routes.get('/campaign/:id', checkToken, getCampaign)
 routes.post('/campaign', checkToken, createCampaign)
 routes.delete('/campaign/:id', checkToken, deleteCampaign)
 routes.put('/campaign/:id', checkToken, updateCampaign)
+
+routes.get('/recents', checkToken, getRecentActivities)
 
 export default routes
