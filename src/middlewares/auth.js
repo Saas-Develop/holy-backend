@@ -9,7 +9,7 @@ export const checkToken = async (req, res, next) => {
     }
 
     try {
-        const secret = process.env.SECRET;
+        const secret = "e";
 
         jwt.verify(token, secret, async (err, user) => {
             if (err) {

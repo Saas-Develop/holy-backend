@@ -5,7 +5,7 @@ import { createMember, deleteMember, getMember, getMembers, updateMember } from 
 import { checkToken } from "./middlewares/auth.js";
 import { storage } from "./config/multer.js";
 import multer from "multer";
-import { createTransaction, deleteTransaction, getTransaction, getTransactions, updateTransaction } from "./controllers/TransactionController.js";
+import { createTransaction, deleteTransaction, getTransaction,getAllTransactions, getTransactions, updateTransaction } from "./controllers/TransactionController.js";
 import { createCampaign, deleteCampaign, getCampaign, getCampaigns, updateCampaign } from "./controllers/CampaignController.js";
 import { getRecentActivities } from "./controllers/RecentActivityController.js";
 
@@ -30,6 +30,7 @@ routes.put('/member/:id', checkToken, updateMember)
 
 //Transactions Routes
 routes.get('/transactions/', checkToken, getTransactions)
+routes.get('/AllTransactions/', checkToken, getAllTransactions)
 routes.get('/transaction/:id', checkToken, getTransaction)
 routes.post('/transaction', checkToken, createTransaction)
 routes.delete('/transaction/:id', checkToken, deleteTransaction)

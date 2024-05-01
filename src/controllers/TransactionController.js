@@ -18,6 +18,28 @@ export const getTransactions = async (req, res) => {
         return res.status(500).json({ msg: 'Erro ao obter transações.', error: err });
     }
 }
+export const getAllTransactions = async (req,res) =>{
+    const userId = req._id;
+
+    if (!userId) {
+        return res.status(400).json({ msg: 'ID do usuário não fornecido.' });
+    }
+
+    try {
+        const transactions = await Transaction.find({ user: userId });
+        const receita = transactions.filter(e => e.type == 'income').map(item => item.value).reduce((acc, cur) => acc + cur, 0);
+        const despesas = transactions.filter(e => e.type == 'expense').map(item => item.value).reduce((acc, cur) => acc + cur, 0);
+        console.log(receita,despesas)
+        return res.status(200).json({
+            'receita':receita,
+            'despesa':despesas,
+            'total': receita - despesas
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Erro ao obter transações.', error: err });
+    }
+}
 
 export const getTransaction = async (req, res) => {
     const transactionId = req.params.id;

@@ -146,7 +146,7 @@ export const loginUser = async (req, res) => {
     try{
 
         //Cria o token passando o secret como assinatura única
-        const secret = process.env.SECRET
+        const secret = 'e'
         const token = jwt.sign({sub: findUser._id}, secret)
         // , { expiresIn: '30m' }
 
