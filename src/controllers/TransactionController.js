@@ -18,6 +18,35 @@ export const getTransactions = async (req, res) => {
         return res.status(500).json({ msg: 'Erro ao obter transações.', error: err });
     }
 }
+
+export const getTransactionsByMonth = async (req, res) => {
+    const userId = req._id
+    const month = req.params.month
+
+    if (!userId) {
+        return res.status(400).json({ msg: 'ID do usuário não fornecido.' })
+    }
+
+    if (!month) {
+        return res.status(400).json({ msg: 'Mês não fornecido.' })
+    }
+
+    try {
+        const transactions = await Transaction.find({ 
+            user: userId, 
+            date: { 
+                $regex: new RegExp(`\/${month}\/`, "i") 
+            } 
+        })
+        return res.status(200).json(transactions)
+    } catch (err) {
+        console.error(err)
+        return res.status(500).json({ msg: 'Erro ao obter transações.', error: err })
+    }
+}
+
+
+
 export const getAllTransactions = async (req,res) =>{
     const userId = req._id;
 
