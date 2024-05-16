@@ -18,6 +18,9 @@ const recentActivitySchema = new mongoose.Schema({
     transactionType: {
         type: String
     },
+    date: {
+        type: String,
+    },
     description: {
         type: String
     },

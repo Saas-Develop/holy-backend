@@ -100,7 +100,7 @@ export const createTransaction = async (req, res) => {
             user: userId,
             description: newTransaction.description,
             value: newTransaction.value,
-            createdAt: new Date()
+            date: newTransaction.date
         });
 
         // Salvar a atividade recente no banco de dados

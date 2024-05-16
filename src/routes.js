@@ -22,7 +22,7 @@ routes.get('/user/:id/', checkToken, privateGetUser)
 routes.post('/auth/refresh-token', checkToken, refreshToken)
 
 //Members Routes
-routes.get('/members/', checkToken, getMembers)
+routes.get('/members', checkToken, getMembers)
 routes.get('/member/:id', checkToken, getMember)
 routes.post('/member', upload, checkToken, createMember)
 routes.delete('/member/:id', checkToken, deleteMember)

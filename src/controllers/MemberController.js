@@ -56,7 +56,7 @@ export const createMember = async (req, res) => {
             itemId: newMember._id,
             user: userId,
             name: newMember.name,
-            createdAt: new Date()
+            date: newMember.createdAt
         });
 
         // Salvar a atividade recente do membro no banco de dados
