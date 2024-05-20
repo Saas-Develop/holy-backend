@@ -8,8 +8,12 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const stripeApp = express.Router()
+stripeApp.use(express.raw({type: "*/*"}))
+
 const app = express()
 
+app.use('/webhook', stripeApp)
 app.use(express.json({
     limit: '10mb',
     verify: (req, res, buf) => {
