@@ -10,6 +10,7 @@ import { createCampaign, deleteCampaign, getCampaign, getCampaigns, updateCampai
 import { getRecentActivities } from "./controllers/RecentActivityController.js";
 import { createCheckout, createCustomerPortalSession } from "./controllers/PaymentController.js";
 import { listenStripeWebhook } from "./services/StripeService.js";
+import { createAdminUser, deleteAdminUser, getAdminUser, getAdminUsers, loginAdminUser, updateUserSubscription } from "./controllers/AdminUserController.js";
 
 dotenv.config()
 const upload = multer({ storage: storage }).array("files", 1);  // "files" é o nome do campo de arquivo no seu formulário
@@ -48,6 +49,14 @@ routes.delete('/campaign/:id', checkToken, deleteCampaign)
 routes.put('/campaign/:id', checkToken, updateCampaign)
 
 routes.get('/recents', checkToken, getRecentActivities)
+
+//Admin Routes
+routes.get('/admin/users', getAdminUsers)
+routes.post('/admin/register', createAdminUser)
+routes.post('/admin/login', loginAdminUser)
+routes.get('/admin/:id', checkToken, getAdminUser)
+routes.delete('/admin/delete/:id', checkToken, deleteAdminUser)
+routes.put('/admin/subscription/:id', checkToken, updateUserSubscription)
 
 //Checkout Routes
 routes.post('/create-checkout/:id', createCheckout)
