@@ -111,6 +111,30 @@ export const deleteUser = async (req, res) => {
     }
 }
 
+export const updateUser = async (req, res) => {
+  const userId = req.params.id;
+  const updates = req.body; // Campos para atualizar
+
+  try {
+      // Se a senha estiver sendo atualizada, precisa ser codificada
+      if (updates.password) {
+          const salt = await bcrypt.genSalt(12);
+          updates.password = await bcrypt.hash(updates.password, salt);
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true, runValidators: true }).select('-password');
+
+      if (!updatedUser) {
+          return res.status(404).json({ msg: 'Usuário não encontrado' });
+      }
+
+      return res.status(200).json(updatedUser);
+  } catch (err) {
+      console.error('Erro ao atualizar usuário:', err.message);
+      return res.status(500).json({ error: 'Erro interno' });
+  }
+};
+
 export const loginUser = async (req, res) => {
     const user = {email: req.body.email, password: req.body.password}
     //Validação de email e senha

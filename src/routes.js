@@ -1,6 +1,6 @@
 import { Router } from "express";
 import dotenv from 'dotenv'
-import { createUser, deleteUser, getUsers, loginUser, privateGetUser, refreshToken } from "./controllers/UserController.js";
+import { createUser, deleteUser, getUsers, loginUser, privateGetUser, refreshToken, updateUser } from "./controllers/UserController.js";
 import { createMember, deleteMember, getMember, getMembers, updateMember } from "./controllers/MemberController.js";
 import { checkToken } from "./middlewares/auth.js";
 import { storage } from "./config/multer.js";
@@ -22,6 +22,7 @@ routes.delete('/user/:id', checkToken, deleteUser)
 routes.post('/auth/register/', createUser)
 routes.post('/auth/login/', loginUser)
 routes.get('/user/:id/', checkToken, privateGetUser)
+routes.patch('/user/:id', checkToken, updateUser)
 routes.post('/auth/refresh-token', checkToken, refreshToken)
 
 //Members Routes
@@ -29,7 +30,7 @@ routes.get('/members', checkToken, getMembers)
 routes.get('/member/:id', checkToken, getMember)
 routes.post('/member', upload, checkToken, createMember)
 routes.delete('/member/:id', checkToken, deleteMember)
-routes.put('/member/:id', checkToken, updateMember)
+routes.patch('/member/:id', upload, checkToken, updateMember)
 
 //Transactions Routes
 routes.get('/transactions/', checkToken, getTransactions)
@@ -40,7 +41,7 @@ routes.delete('/transaction/:id', checkToken, deleteTransaction)
 routes.put('/transaction/:id', checkToken, updateTransaction)
 routes.get('/transactions/:month', checkToken, getTransactionsByMonth)
 routes.get('/transactions/year/:year', checkToken, getTransactionsByYear)
-routes.get('/transactions/:year/:month', checkToken, getTransactionsByYearAndMonth);
+routes.get('/transactions/:year/:month', checkToken, getTransactionsByYearAndMonth)
 
 //Campaigns Routes
 routes.get('/campaigns/', checkToken, getCampaigns)
