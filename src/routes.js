@@ -18,7 +18,7 @@ const routes = Router()
 
 //User Routes
 routes.get('/', getUsers)
-routes.delete('/user/:id', checkToken, deleteUser)
+routes.delete('/user/delete/:id', checkToken, deleteUser)
 routes.post('/auth/register/', createUser)
 routes.post('/auth/login/', loginUser)
 routes.get('/user/:id/', checkToken, privateGetUser)
