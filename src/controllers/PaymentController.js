@@ -20,7 +20,7 @@ const stripe = new Stripe('sk_test_51PIOrxB1zb3WjLQNxcFQ78j0Y8JaORJLEfnIhIoCHhqg
             line_items: [
               {
                 // Fornecer o ID exato do preço (por exemplo, pr_1234) do produto que você deseja vender
-                price: subscriptionType === 'annual' ? 'price_1PIP2PB1zb3WjLQNrBlZdiuA' : 'price_1PIP3HB1zb3WjLQNAVcUAxmB',
+                price: subscriptionType === 'annual' ? 'price_1PJqi6B1zb3WjLQNXA3Gqu4N' : 'price_1PIP3HB1zb3WjLQNAVcUAxmB',
                 quantity: 1,
               },
             ],
