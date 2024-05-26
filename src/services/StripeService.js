@@ -5,6 +5,45 @@ const secret = process.env.STRIPE_SECRET_KEY
 const webhook_secret = process.env.STRIPE_WEBHOOK_SECRET
 const stripe = new Stripe('sk_test_51PIOrxB1zb3WjLQNxcFQ78j0Y8JaORJLEfnIhIoCHhqgyVcGe40Q26UML8sJa1hleLGFb8Awp9cN92N9LIYjT7hq00XKqRn6O5')
 
+export const addNewCustomer = async (email, description) => {
+    try{
+        const customer = await stripe.customers.create({
+            email,
+            description,
+            // test_clock: 'clock_1OMj5eB2WsI6rZwTNuWRcoFf',
+        })
+        return customer.id
+    } catch (err) {
+        console.log(err.message)
+    }
+    
+}
+
+export const getCustomerById = async (id) => {
+    try{
+        const customer = await stripe.customers.retrieve(id)
+        return customer
+    } catch (err) {
+        console.log(err.message)
+    }
+   
+}
+
+export const getCustomerByEmail = async (email) => {
+    try {
+      const customers = await stripe.customers.list({ email: email });
+      
+      if (customers.data.length > 0) {
+        // Retorna o ID do primeiro cliente encontrado (assumindo que o email é único)
+        return customers.data[0].id;
+      } else {
+        return null; // Retorna null se nenhum cliente foi encontrado com o email fornecido
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
 
  export const listenStripeWebhook = async (req, res) => {
     const endpointSecret = 'whsec_1f5de97ae3a7b4ae186a3899bd079a8d2be19032e8c144562e8b2e9d399b8153';

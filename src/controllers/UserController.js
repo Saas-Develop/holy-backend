@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
 import dotenv from 'dotenv'
 import Campaign from "../models/Campaign.js"
+import { addNewCustomer, getCustomerByEmail } from "../services/StripeService.js"
 
 dotenv.config()
 
