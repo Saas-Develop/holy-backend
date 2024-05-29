@@ -4,6 +4,7 @@ import routes from './routes.js'
 import { connectDatabase } from './database/db.js'
 import path from 'path'
 import { fileURLToPath } from 'url';
+import serverless from 'serverless-http'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,6 +34,8 @@ connectDatabase()
     })
     .catch(err => console.log(`Sem conexão, ${err} 🤯`))
 
-app.listen(3002, () => {
-    console.log(`Servidor rodando na porta 3002`)
-})
+// app.listen(3002, () => {
+//     console.log(`Servidor rodando na porta 3002`)
+// })
+
+export const handler = serverless(app)

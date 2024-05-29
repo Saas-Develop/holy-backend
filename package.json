@@ -1,12 +1,13 @@
 {
-  "name": "holy-backend",
+  "name": "holy-back",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "build": "rmdir /s /q dist && xcopy /e src dist"
   },
   "author": "alexandresaints",
   "license": "ISC",
@@ -22,6 +23,8 @@
     "nodemon": "^3.0.3",
     "path": "^0.12.7",
     "react-native-date-picker": "^5.0.2",
+    "serverless": "^4.0.24",
+    "serverless-http": "^3.2.0",
     "stripe": "^14.14.0",
     "url": "^0.11.3"
   }
