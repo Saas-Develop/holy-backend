@@ -34,8 +34,8 @@ connectDatabase()
     })
     .catch(err => console.log(`Sem conexão, ${err} 🤯`))
 
-// app.listen(3002, () => {
-//     console.log(`Servidor rodando na porta 3002`)
-// })
+app.listen(3002, () => {
+    console.log(`Servidor rodando na porta 3002`)
+})
 
-export const handler = serverless(app)
+// export const handler = serverless(app)

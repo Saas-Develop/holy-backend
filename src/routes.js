@@ -5,6 +5,7 @@ import { createMember, deleteMember, getMember, getMembers, updateMember } from 
 import { checkToken } from "./middlewares/auth.js";
 import { storage } from "./config/multer.js";
 import multer from "multer";
+import upload from "./config/multer.js";
 import { createTransaction, deleteTransaction, getTransaction,getAllTransactions, getTransactions, updateTransaction, getTransactionsByMonth, getTransactionsByYear, getTransactionsByYearAndMonth } from "./controllers/TransactionController.js";
 import { createCampaign, deleteCampaign, getCampaign, getCampaigns, updateCampaign } from "./controllers/CampaignController.js";
 import { getRecentActivities } from "./controllers/RecentActivityController.js";
@@ -13,7 +14,6 @@ import { listenStripeWebhook } from "./services/StripeService.js";
 import { createAdminUser, deleteAdminUser, getAdminUser, getAdminUsers, loginAdminUser, updateUserSubscription } from "./controllers/AdminUserController.js";
 
 dotenv.config()
-const upload = multer({ storage: storage }).array("files", 1);  // "files" é o nome do campo de arquivo no seu formulário
 const routes = Router()
 
 //User Routes
@@ -28,9 +28,9 @@ routes.post('/auth/refresh-token', checkToken, refreshToken)
 //Members Routes
 routes.get('/members', checkToken, getMembers)
 routes.get('/member/:id', checkToken, getMember)
-routes.post('/member', upload, checkToken, createMember)
+routes.post('/member', upload.array("files", 1), checkToken, createMember)
 routes.delete('/member/:id', checkToken, deleteMember)
-routes.patch('/member/:id', upload, checkToken, updateMember)
+routes.patch('/member/:id', upload.array("files", 1), checkToken, updateMember)
 
 //Transactions Routes
 routes.get('/transactions/', checkToken, getTransactions)

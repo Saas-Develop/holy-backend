@@ -34,10 +34,10 @@ const memberSchema = new mongoose.Schema({
         required: true
     },
     files: [{
-        originalname: String,
         filename: String,
-        url: String,
         size: Number,
+        url: String,
+        uuid: String
     }],
     user: {
         type: mongoose.Schema.Types.ObjectId,
