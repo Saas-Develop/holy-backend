@@ -13,7 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.583.0",
-    "aws-sdk": "^2.1630.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
@@ -29,7 +28,6 @@
     "serverless": "^4.0.24",
     "serverless-http": "^3.2.0",
     "stripe": "^14.14.0",
-    "url": "^0.11.3",
-    "uuid": "^9.0.1"
+    "url": "^0.11.3"
   }
 }
