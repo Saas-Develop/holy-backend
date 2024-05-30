@@ -2,7 +2,7 @@ import Stripe from "stripe"
 import User from "../models/User.js"
 
 const secret = process.env.STRIPE_SECRET_KEY
-const stripe = new Stripe('sk_test_51PIOrxB1zb3WjLQNxcFQ78j0Y8JaORJLEfnIhIoCHhqgyVcGe40Q26UML8sJa1hleLGFb8Awp9cN92N9LIYjT7hq00XKqRn6O5')
+const stripe = new Stripe('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')
 
   export const createCheckout = async (req, res, next) => {
     try {
@@ -20,13 +20,13 @@ const stripe = new Stripe('sk_test_51PIOrxB1zb3WjLQNxcFQ78j0Y8JaORJLEfnIhIoCHhqg
             line_items: [
               {
                 // Fornecer o ID exato do preço (por exemplo, pr_1234) do produto que você deseja vender
-                price: subscriptionType === 'annual' ? 'price_1PJqi6B1zb3WjLQNXA3Gqu4N' : 'price_1PIP3HB1zb3WjLQNAVcUAxmB',
+                price: subscriptionType === 'annual' ? 'price_1PM2bEB1zb3WjLQN60RaSt8N' : 'price_1PM2bBB1zb3WjLQNPeiUERbQ',
                 quantity: 1,
               },
             ],
             mode: "subscription",
-            success_url: `https://app.organizzai.com/dashboard`,
-            cancel_url: `https://app.organizzai.com/dashboard`,
+            success_url: `https://holyapp.com.br/`,
+            cancel_url: `https://holyapp.com.br/`,
             subscription_data: {
                 trial_period_days: 7
             }
@@ -59,7 +59,7 @@ export const createCustomerPortalSession = async (req, res, next) => {
             // O usuário tem uma assinatura ativa
             const session = await stripe.billingPortal.sessions.create({
                 customer: user.customerId,
-                return_url: 'https://app.organizzai.com/dashboard',
+                return_url: 'https://holyapp.com.br/',
             });
 
             console.log(session)

@@ -3,7 +3,7 @@ import User from "../../src/models/User.js"
 
 const secret = process.env.STRIPE_SECRET_KEY
 const webhook_secret = process.env.STRIPE_WEBHOOK_SECRET
-const stripe = new Stripe('sk_test_51PIOrxB1zb3WjLQNxcFQ78j0Y8JaORJLEfnIhIoCHhqgyVcGe40Q26UML8sJa1hleLGFb8Awp9cN92N9LIYjT7hq00XKqRn6O5')
+const stripe = new Stripe('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')
 
 export const addNewCustomer = async (email, description) => {
     try{
@@ -46,7 +46,7 @@ export const getCustomerByEmail = async (email) => {
 
 
  export const listenStripeWebhook = async (req, res) => {
-    const endpointSecret = 'whsec_1f5de97ae3a7b4ae186a3899bd079a8d2be19032e8c144562e8b2e9d399b8153';
+    const endpointSecret = 'whsec_ttb5v6UBG6j6KjYUtO5dNN9vw2oEtWdT';
     const sig = req.headers['stripe-signature'];
 
     try {

@@ -30,7 +30,7 @@ export const privateGetUser = async (req, res) => {
           id: user._id,
           church_name: user.church_name,
           email: user.email,
-          // customerId: user.customerId,
+          customerId: user.customerId,
         },
         campaigns,
         subscriptionStatus: user.subscription, // Certifique-se de ajustar isso conforme necessário

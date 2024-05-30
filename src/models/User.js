@@ -31,9 +31,9 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Campaign'
     }],
-    // customerId: {
-    //     type: String
-    // },
+    customerId: {
+        type: String
+    },
     createdAt: {
         type: Date,
         default: Date.now()
