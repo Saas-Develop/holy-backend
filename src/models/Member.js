@@ -37,6 +37,7 @@ const memberSchema = new mongoose.Schema({
         filename: String,
         size: Number,
         url: String,
+        type: String
     }],
     user: {
         type: mongoose.Schema.Types.ObjectId,

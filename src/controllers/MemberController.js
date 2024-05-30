@@ -44,6 +44,7 @@ export const createMember = async (req, res) => {
             filename: file.key, // Usando `file.key` para o nome do arquivo no S3
             size: file.size,
             url: file.location, // `file.location` é a URL retornada pelo S3
+            type: file.type, // `file.location` é a URL retornada pelo S3
         })),
         user: userId
     }
