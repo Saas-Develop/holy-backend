@@ -33,12 +33,11 @@ const memberSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    files: [{
+    files: {
         filename: String,
         size: Number,
         url: String,
-        uuid: String
-    }],
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

@@ -24,7 +24,7 @@ export const storage = multerS3({
     const fileName = `${time}_${file.originalname}`;
     cb(null, fileName);
   },
-  contentDisposition: 'inline',  // Adiciona o cabeçalho Content-Disposition
+  acl: 'public-read',
 });
 
 const upload = multer({ storage: storage });

@@ -28,9 +28,9 @@ routes.post('/auth/refresh-token', checkToken, refreshToken)
 //Members Routes
 routes.get('/members', checkToken, getMembers)
 routes.get('/member/:id', checkToken, getMember)
-routes.post('/member', upload.array("files", 1), checkToken, createMember)
+routes.post('/member', upload.single("files"), checkToken, createMember)
 routes.delete('/member/:id', checkToken, deleteMember)
-routes.patch('/member/:id', upload.array("files", 1), checkToken, updateMember)
+routes.patch('/member/:id', upload.single("files"), checkToken, updateMember)
 
 //Transactions Routes
 routes.get('/transactions/', checkToken, getTransactions)

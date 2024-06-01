@@ -41,12 +41,11 @@ export const createMember = async (req, res) => {
         role: req.body.role,
         baptized: req.body.baptized,
         member_since: req.body.member_since,
-        files: req.files.map(file => ({
-            filename: file.key, // Usando `file.key` para o nome do arquivo no S3
-            size: file.size,
-            url: file.location, // `file.location` é a URL retornada pelo S3,
-            uuid: uuidv4() // Gerando um ID único para o arquivo
-        })),
+        files: { // Ajustado para um único arquivo
+            filename: req.file.key, // Usando `file.key` para o nome do arquivo no S3
+            size: req.file.size,
+            url: req.file.location, // `file.location` é a URL retornada pelo S3
+        },
         user: userId
     }
 
@@ -104,15 +103,13 @@ export const updateMember = async (req, res) => {
         if (req.body.member_since) newData.member_since = req.body.member_since
 
         // Handle image update if provided in the request
-        if (req.files && req.files.length > 0) {
-            // Assuming only one image is updated
-            const file = req.files[0]
+        if (req.file) { // `req.file` ao invés de `req.files` para upload.single
+            const file = req.file;
             newData.files = {
                 filename: file.key, // Usando `file.key` para o nome do arquivo no S3
                 size: file.size,
                 url: file.location, // `file.location` é a URL retornada pelo S3
-                uuid: uuidv4() // Gerando um ID único para o arquivo
-            }
+            };
         }
 
         // Salva as alterações no banco de dados
