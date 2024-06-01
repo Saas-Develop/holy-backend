@@ -1,6 +1,7 @@
 import User from "../models/User.js"
 import Member from "../models/Member.js"
 import RecentActivity from "../models/RecentActivity.js"
+import { v4 as uuidv4 } from 'uuid'; // Para gerar IDs únicos para os arquivos
 
 
 export const getMembers = async (req, res) => {
@@ -43,7 +44,8 @@ export const createMember = async (req, res) => {
         files: req.files.map(file => ({
             filename: file.key, // Usando `file.key` para o nome do arquivo no S3
             size: file.size,
-            url: file.location, // `file.location` é a URL retornada pelo S3
+            url: file.location, // `file.location` é a URL retornada pelo S3,
+            uuid: uuidv4() // Gerando um ID único para o arquivo
         })),
         user: userId
     }
@@ -109,6 +111,7 @@ export const updateMember = async (req, res) => {
                 filename: file.key, // Usando `file.key` para o nome do arquivo no S3
                 size: file.size,
                 url: file.location, // `file.location` é a URL retornada pelo S3
+                uuid: uuidv4() // Gerando um ID único para o arquivo
             }
         }
 

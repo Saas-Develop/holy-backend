@@ -36,7 +36,8 @@ const memberSchema = new mongoose.Schema({
     files: [{
         filename: String,
         size: Number,
-        url: String
+        url: String,
+        uuid: String
     }],
     user: {
         type: mongoose.Schema.Types.ObjectId,
