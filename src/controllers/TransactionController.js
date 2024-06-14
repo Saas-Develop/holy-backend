@@ -170,10 +170,22 @@ export const createTransaction = async (req, res) => {
 export const deleteTransaction = async (req, res) => {
     const id = req.params.id
 
-    await Transaction.findByIdAndDelete({ _id: id })
-    await RecentActivity.findOneAndDelete({ type: 'Transaction', itemId: id })
+    try {
+        const transaction = await Transaction.findByIdAndDelete({ _id: id })
 
-    return res.status(200).json({ res: 'Transação deletada com sucesso.' })
+        if (!transaction) {
+            return res.status(404).json({ msg: 'Transação não encontrada.' })
+        }
+
+        await RecentActivity.findOneAndDelete({ type: 'Transaction', itemId: id })
+
+        await User.findByIdAndUpdate(transaction.user, { $pull: { transactions: id } })
+
+        return res.status(200).json({ res: 'Transação deletada com sucesso.' })
+    } catch (err) {
+        console.error(err.message)
+        return res.status(500).json({ msg: 'Erro ao deletar transação.', err })
+    }
 }
 
 export const updateTransaction = async (req, res) => {

@@ -74,13 +74,25 @@ export const createMember = async (req, res) => {
 
 
 export const deleteMember = async (req, res) => {
-
     const id = req.params.id
 
-    await Member.findByIdAndDelete({_id: id})
-    await RecentActivity.findOneAndDelete({ type: 'Member', itemId: id })
+    try {
+        const member = await Member.findByIdAndDelete({_id: id})
 
-    return res.status(200).json({res: 'Membro e suas inforamções deletadas com sucesso.'})
+        if (!member) {
+            return res.status(404).json({ msg: 'Membro não encontrado.' })
+        }
+
+        // Deletar a atividade recente associada ao membro
+        await RecentActivity.findOneAndDelete({ type: 'Member', itemId: id })
+
+        await User.findByIdAndUpdate(member.user, { $pull: { members: id } })
+
+        return res.status(200).json({ res: 'Membro e suas informações deletadas com sucesso.' })
+    } catch (err) {
+        console.error(err.message)
+        return res.status(500).json({ msg: 'Erro ao deletar membro', err })
+    }
 }
 
 export const updateMember = async (req, res) => {

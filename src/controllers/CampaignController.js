@@ -51,9 +51,20 @@ export const createCampaign = async (req, res) => {
 export const deleteCampaign = async (req, res) => {
     const id = req.params.id
 
-    await Campaign.findByIdAndDelete({ _id: id })
+    try {
+        const campaign = await Campaign.findByIdAndDelete({ _id: id })
 
-    return res.status(200).json({ res: 'Campanha deletada com sucesso.' })
+        if (!campaign) {
+            return res.status(404).json({ msg: 'Campanha não encontrada.' })
+        }
+
+        await User.findByIdAndUpdate(campaign.user, { $pull: { campaigns: id } })
+
+        return res.status(200).json({ res: 'Campanha deletada com sucesso.' })
+    } catch (err) {
+        console.error(err.message)
+        return res.status(500).json({ msg: 'Erro ao deletar campanha.', err })
+    }
 }
 
 export const updateCampaign = async (req, res) => {
