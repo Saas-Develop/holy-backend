@@ -107,8 +107,8 @@ export const updateMember = async (req, res) => {
         const newData = {}
         if (req.body.name) newData.name = req.body.name
         if (req.body.gender) newData.gender = req.body.gender
-        if (req.body.birthday) newData.birthday = req.body.birthday
-        if (req.body.address) newData.address = req.body.address
+        if (req.body.bday) newData.bday = req.body.bday
+        if (req.body.adress) newData.adress = req.body.adress
         if (req.body.cell_number) newData.cell_number = req.body.cell_number
         if (req.body.role) newData.role = req.body.role
         if (req.body.baptized) newData.baptized = req.body.baptized
