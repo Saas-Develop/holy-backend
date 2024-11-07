@@ -1,8 +1,16 @@
 import Stripe from "stripe"
 import User from "../models/User.js"
 
+
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+const stripe_secret = process.env.STRIPE_SECRET_KEY
 const secret = process.env.STRIPE_SECRET_KEY
-const stripe = new Stripe('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')
+const annualPrice = process.env.ANNUAL_PRICE
+const monthlyPrice = process.env.MONTHLY_PRICE
+const stripe = new Stripe(`${stripe_secret}`)
 
   export const createCheckout = async (req, res, next) => {
     try {
@@ -11,16 +19,12 @@ const stripe = new Stripe('sk_live_51PIOrxB1zb3WjLQN5g2Tzo2ISmxM1EnnNTBNQSrQgWIk
         const user = await User.findById({_id: id});
         const customer = user.customerId
 
-
-        console.log(`UserID: ${customer}`);
-
-
         const session = await stripe.checkout.sessions.create({
             customer: customer,
             line_items: [
               {
                 // Fornecer o ID exato do preço (por exemplo, pr_1234) do produto que você deseja vender
-                price: subscriptionType === 'annual' ? 'price_1PM2bEB1zb3WjLQN60RaSt8N' : 'price_1PM2bBB1zb3WjLQNPeiUERbQ',
+                price: subscriptionType === 'annual' ? annualPrice : monthlyPrice,
                 quantity: 1,
               },
             ],
@@ -33,7 +37,6 @@ const stripe = new Stripe('sk_live_51PIOrxB1zb3WjLQN5g2Tzo2ISmxM1EnnNTBNQSrQgWIk
           });
 
           res.status(200).json({ msg: `Checkout iniciado com sucesso`, clientSecret: session.client_secret, id: session.id, url: session.url, customer: customer, email: user.email });
-          console.log(session.client_secret)
         next();
     } catch (err) {
         res.status(500).json({ status: 'failed', msg: err.message });
