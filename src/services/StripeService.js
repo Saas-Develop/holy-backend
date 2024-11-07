@@ -1,9 +1,14 @@
 import Stripe from "stripe"
 import User from "../../src/models/User.js"
 
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 const secret = process.env.STRIPE_SECRET_KEY
 const webhook_secret = process.env.STRIPE_WEBHOOK_SECRET
-const stripe = new Stripe('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')
+const stripe_secret = process.env.STRIPE_SECRET_KEY
+const stripe = new Stripe(`${stripe_secret}`)
 
 export const addNewCustomer = async (email, description) => {
     try{
@@ -46,7 +51,7 @@ export const getCustomerByEmail = async (email) => {
 
 
  export const listenStripeWebhook = async (req, res) => {
-    const endpointSecret = 'whsec_ttb5v6UBG6j6KjYUtO5dNN9vw2oEtWdT';
+    const endpointSecret = `${webhook_secret}`;
     const sig = req.headers['stripe-signature'];
 
     try {
