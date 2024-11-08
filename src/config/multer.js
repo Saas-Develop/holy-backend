@@ -3,19 +3,27 @@ import multerS3 from "multer-s3";
 import { S3Client } from "@aws-sdk/client-s3";
 import path from "path";
 
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+const acessKeyId = process.env.KEY_ID
+const secretKey = process.env.SECRET_KEY
+const awsBucket = process.env.AWS_BUCKET
+
 // Configurar o cliente S3
 const s3 = new S3Client({
   region: "sa-east-1",
   credentials: {
-    accessKeyId: 'AKIA6ODU4QBDHXRTS42I',
-    secretAccessKey: '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',
+    accessKeyId: acessKeyId,
+    secretAccessKey: secretKey,
   }
 });
 
 // Configurar o armazenamento Multer com S3
 export const storage = multerS3({
   s3: s3,
-  bucket: "holy-back-production-serverlessdeploymentbucket-cw1vdhfs1zil",
+  bucket: awsBucket,
   metadata: (req, file, cb) => {
     cb(null, { fieldName: file.fieldname });
   },
